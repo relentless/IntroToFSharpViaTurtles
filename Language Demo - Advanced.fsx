@@ -1,58 +1,5 @@
-﻿// F# Language Demo
-// ================
-
-// ** run code interactively in the REPL **
-let isEven num = 
-    num % 2 = 0
-// ^ not much syntax!
-
-// ** immutable by default**
-let x = 10
-x <- 20
-
-// ** type inference **
-let add x y =
-    x + y
-
-add 5 7
-
-// ** currying & partial application **
-let add10 = add 10
-
-add10 5
-
-// ** pipe operator **
-
-// old way
-List.sum (List.map add10 (List.filter isEven [1..10]))
-
-// better way
-[1..10]
-|> List.filter isEven
-|> List.map add10
-|> List.sum
-
-// ** Discriminated Unions **
-type Shape =
-    | Circle
-    | Rectangle of int * int
-    | Square of int
-
-// ** pattern matching **
-let printShape shape =
-    match shape with
-    | Circle -> printfn "I'm a circle"
-    | Rectangle(width, height) -> printfn "I'm a rectangle of size %ix%i" width height
-    | Square(0) -> printfn "I'm a really small square"
-    | Square(x) when x > 100 -> printfn "I'm a really big square"
-    | Square(_) -> printfn "I'm some other square"
-
-let myTuple = (1, 2, 3)
-
-let x, y, z = myTuple
-
-// F# Nice Features
-// ================
+﻿// F# Language Demo - Advanced
+// ===========================
 
 // ** units of measure **
 [<Measure>] type mile
@@ -61,9 +8,14 @@ let x, y, z = myTuple
 let distanceTravelled = 200<mile>
 let timeTaken = 3<hour>
 
-let speed = distanceTravelled / timeTaken
+let speed (distance:int<mile>) (time:int<hour>) =
+    distance / time
+
+speed 2 120
+//speed 120<mile> 2<hour>
 
 let area = 5<mile> * 3<mile>
+
 
 // ** Type Providers **
 
@@ -79,12 +31,12 @@ wb
   .Indicators.``School enrollment, tertiary (% gross)``
 |> Seq.maxBy fst
 
+//wb.Countries
+
 // ** interactive charting **
 
 #load "packages/FSharp.Charting.0.82/FSharp.Charting.fsx"
 open FSharp.Charting
-
-wb.Countries.Albania.CapitalCity
 
 wb.Countries.``United Kingdom``
     .Indicators.``School enrollment, tertiary (% gross)``
@@ -99,6 +51,7 @@ let countries =
     c.Indicators.``School enrollment, tertiary (% gross)`` ]
 |> List.map Chart.Line
 |> Chart.Combine
+
 
 // Backup charting
 
