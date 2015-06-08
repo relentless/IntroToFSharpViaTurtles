@@ -19,24 +19,24 @@ let area = 5<mile> * 3<mile>
 
 // ** Type Providers **
 
-// http://data.worldbank.org/developers/data-catalog-api
-
 #r @".\packages\FSharp.Data.2.2.2\lib\net40\FSharp.Data.dll"
+#load "packages/FSharp.Charting.0.82/FSharp.Charting.fsx"
+open FSharp.Charting
 open FSharp.Data
+
+// JSON Type Provider
+
+type MapInfo = JsonProvider<"gmaps.json">
+let locations = MapInfo.Load("gmaps.json")
+
+// WorldBank Type Provider
+
+// http://data.worldbank.org/developers/data-catalog-api
 
 let wb = WorldBankData.GetDataContext()
 
-wb
-  .Countries.``United Kingdom``
-  .Indicators.``School enrollment, tertiary (% gross)``
-|> Seq.maxBy fst
-
-//wb.Countries
 
 // ** interactive charting **
-
-#load "packages/FSharp.Charting.0.82/FSharp.Charting.fsx"
-open FSharp.Charting
 
 wb.Countries.``United Kingdom``
     .Indicators.``School enrollment, tertiary (% gross)``
@@ -44,6 +44,7 @@ wb.Countries.``United Kingdom``
 
 let countries = 
  [| wb.Countries.Australia
+    wb.Countries.Albania
     wb.Countries.``United Kingdom``
     wb.Countries.``United States`` |]
 
