@@ -21,14 +21,14 @@ type Command =
     // TODO: more commands
 
 // PARSER
-let pforward = pstring "forward" >>. spaces1 >>. pfloat |>> (fun x -> Forward(x))
+let pForward = pstring "forward" >>. spaces1 >>. pfloat |>> (fun x -> Forward(x))
 // TODO: more parsers
 
 // TODO: list of commands
 
 /// Converts a string into an AST
 let parse text =
-    match run pforward text with
+    match run pForward text with
     | Success(result, _, _) -> result
     | Failure(errorMsg, _, _) -> failwith ("Parse error: " + errorMsg)
 
@@ -44,12 +44,12 @@ let execute startTurtle ast =
         let radians = angle * System.Math.PI / 180.0
         (x + distance * cos radians, y + distance * sin radians)
     
-    let rec exec codeToExec turtle lines =
+    let rec exec codeToExec turtle =
         match codeToExec with
-        | _ -> lines
+        | _ -> ((0.0,0.0),(0.0,0.0))
         // TODO: match AST types
 
-    exec ast startTurtle []
+    exec ast startTurtle
 
 // DISPLAY
 
