@@ -80,10 +80,7 @@ let display lines =
 
     form.ShowDialog() |> ignore
 
-//"repeat 4 [forward 50 repeat 3 [right 30 forward 30]]"
-//"repeat 3 [forward 80 repeat 20 [right 30 forward 30]]"
-
-"repeat 4 [forward 50 right 90 repeat 4 [forward 5 right 180 forward 5 right 90]]"
+"repeat 3 [forward 80 repeat 20 [right 30 forward 30]]"
 |> parse
 |> execute { X=(float width)/2.0; Y=(float height)/2.0; Direction=0.0 }
 |> display
